@@ -34,6 +34,14 @@ test('extract symlinks', async t => {
 	t.is(files[1].type, 'file');
 });
 
+test('extract v7 archive', async t => {
+	const buf = await fsP.readFile(path.join(__dirname, 'fixtures', 'v7.tar'));
+	const files = await m()(buf);
+
+	t.is(files[0].path, 'file.txt');
+	t.is(files[0].data.toString(), 'foo\n');
+});
+
 test('return empty array if non-valid file is supplied', async t => {
 	const buf = await fsP.readFile(__filename);
 	const files = await m()(buf);
